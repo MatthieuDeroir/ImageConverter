@@ -4,12 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Converter</title>
+    <style>
+        #upload-section {
+            display: none;
+        }
+    </style>
+    <script>
+        function handleFormatChange() {
+            var formatSelector = document.getElementById("format");
+            var uploadSection = document.getElementById("upload-section");
+            var selectedFormatInput = document.getElementById("selected-format");
+            if (formatSelector.value !== "") {
+                uploadSection.style.display = "block";
+                selectedFormatInput.value = formatSelector.value;
+            } else {
+                uploadSection.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
-    <h1>Upload an image to convert to WebP</h1>
-    <form action="/" method="post" enctype="multipart/form-data">
+<h1>Image Converter</h1>
+
+<!-- Little Cat SVG -->
+<div style="position:relative;">
+    <iframe src="https://gifer.com/embed/C568" width="10%" height="10%"></iframe>
+</div>
+<p></p>
+
+<div id="visitor_count">
+    <p>Visitor Count: {{ visitor_count }}</p>
+</div>
+
+<form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+    <label for="format">Select Output Format:</label>
+    <select name="format" id="format" onchange="handleFormatChange()">
+        <option value="">-- Select a Format --</option>
+        <option value="webp">WebP</option>
+        <option value="jpeg">JPEG</option>
+        <option value="png">PNG</option>
+        <option value="tiff">TIFF</option>
+        <option value="bmp">BMP</option>
+        <option value="gif">GIF</option>
+    </select>
+    <div id="upload-section" style="display:none;">
+        <h2>Upload an image to convert</h2>
+
         <input type="file" name="file" multiple>
         <input type="submit" value="Upload and Convert">
-    </form>
+    </div>
+
+</form>
+
 </body>
 </html>
